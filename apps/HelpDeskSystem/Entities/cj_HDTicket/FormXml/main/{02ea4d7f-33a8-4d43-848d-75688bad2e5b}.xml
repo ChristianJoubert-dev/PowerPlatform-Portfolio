@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <systemform>
+    <formid>{02ea4d7f-33a8-4d43-848d-75688bad2e5b}</formid>
+    <IntroducedVersion>1.0</IntroducedVersion>
+    <FormPresentation>1</FormPresentation>
+    <FormActivationState>1</FormActivationState>
+    <form headerdensity="HighWithControls">
+      <tabs>
+        <tab verticallayout="true" id="{1F9A5467-3893-473D-A0C4-16FF5932EC4A}" IsUserDefined="1">
+          <labels>
+            <label description="General" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="100%">
+              <sections>
+                <section showlabel="false" showbar="false" IsUserDefined="0" id="{73B7DD5E-E846-4F67-BE9F-15E513C8CD63}">
+                  <labels>
+                    <label description="General" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{7F1C1FD8-FDEE-40D9-8F1E-90AF7C6EE8A6}">
+                        <labels>
+                          <label description="" languagecode="1033" />
+                        </labels>
+                        <control id="cj_title" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="cj_Title" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{2d5edbbd-0c76-4e6f-a152-4d0c1df2a072}" locklevel="0" colspan="1" rowspan="1">
+                        <labels>
+                          <label description="Title" languagecode="1033" />
+                        </labels>
+                        <control id="cj_title" classid="{4273EDBD-AC1D-40D3-9FB2-095C621B552D}" datafieldname="cj_title" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{a0f73189-4a8d-4af4-b107-13aafdd9d009}">
+                        <labels>
+                          <label description="Description" languagecode="1033" />
+                        </labels>
+                        <control id="cj_description" classid="{e0dece4b-6fc8-4a8f-a065-082708572369}" datafieldname="cj_description" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{b30b0f49-7700-413e-8cfc-166d377b7322}">
+                        <labels>
+                          <label description="Status" languagecode="1033" />
+                        </labels>
+                        <control id="cj_status" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="cj_status" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{838e97d2-eb96-4f3c-96af-7eae7d288bf3}">
+                        <labels>
+                          <label description="Priority" languagecode="1033" />
+                        </labels>
+                        <control id="cj_priority" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="cj_priority" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{0c72065e-deb6-4526-a4b0-8505a3b6a7d5}">
+                        <labels>
+                          <label description="Source" languagecode="1033" />
+                        </labels>
+                        <control id="cj_source" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="cj_source" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{3bf9cddf-0533-4903-a694-cf2bfce8df24}">
+                        <labels>
+                          <label description="Resolved On" languagecode="1033" />
+                        </labels>
+                        <control id="cj_resolvedon" classid="{5b773807-9fb2-42db-97c3-7a91eff8adff}" datafieldname="cj_resolvedon" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{573ddf51-ca20-4c31-a53c-127cdd07a6f0}">
+                        <labels>
+                          <label description="HD Employee" languagecode="1033" />
+                        </labels>
+                        <control id="cj_requester" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="cj_requester" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{21717dcd-77e1-4982-b5c0-c6195abcfe2f}">
+                        <labels>
+                          <label description="HD Support Agent" languagecode="1033" />
+                        </labels>
+                        <control id="cj_assignedto" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="cj_assignedto" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{dee4f9a5-09be-4c63-97d9-e281429ce7c8}">
+                        <labels>
+                          <label description="HD Ticket Category" languagecode="1033" />
+                        </labels>
+                        <control id="cj_category" classid="{270bd3db-d9af-4782-9025-509e298dec0a}" datafieldname="cj_category" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{5fba1d51-4a89-4b20-b328-5ae8170d4a93}">
+                        <labels>
+                          <label description="Ticket Number" languagecode="1033" />
+                        </labels>
+                        <control id="cj_ticketnumber" classid="{4273edbd-ac1d-40d3-9fb2-095c621b552d}" datafieldname="cj_ticketnumber" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+      </tabs>
+      <header id="{48b0fe70-70ab-48ab-b4c7-641c05e7d698}" celllabelposition="Top" columns="111" labelwidth="115" celllabelalignment="Left">
+        <rows>
+          <row>
+            <cell id="{97163eca-aa48-440c-a30f-d4bd32ca7c92}" showlabel="false">
+              <labels>
+                <label description="" languagecode="1033" />
+              </labels>
+            </cell>
+            <cell id="{61ea39f5-e742-4fc7-8100-838f99b02fe9}" showlabel="false">
+              <labels>
+                <label description="" languagecode="1033" />
+              </labels>
+            </cell>
+            <cell id="{f5a49eb9-0121-448e-8889-9b09baa3c19a}" showlabel="false">
+              <labels>
+                <label description="" languagecode="1033" />
+              </labels>
+            </cell>
+            <cell id="{BE81AAD4-78CA-479D-855B-149441944859}" colspan="1" rowspan="1">
+              <labels>
+                <label description="Owner" languagecode="1033" />
+              </labels>
+              <control id="header_ownerid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ownerid" />
+            </cell>
+          </row>
+        </rows>
+      </header>
+      <footer id="{13f694c4-51ed-4a93-9552-b0da359ce333}" celllabelposition="Top" columns="111" labelwidth="115" celllabelalignment="Left">
+        <rows>
+          <row>
+            <cell id="{180de4cc-d723-4bb8-a394-be72d7515a56}" showlabel="false">
+              <labels>
+                <label description="" languagecode="1033" />
+              </labels>
+            </cell>
+            <cell id="{4928be27-4bf2-4ebe-91ad-97414d19a68d}" showlabel="false">
+              <labels>
+                <label description="" languagecode="1033" />
+              </labels>
+            </cell>
+            <cell id="{2376f447-505b-4c06-9320-24206d31fbe3}" showlabel="false">
+              <labels>
+                <label description="" languagecode="1033" />
+              </labels>
+            </cell>
+          </row>
+        </rows>
+      </footer>
+      <DisplayConditions Order="0" FallbackForm="true">
+        <Everyone />
+      </DisplayConditions>
+    </form>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>1</CanBeDeleted>
+    <LocalizedNames>
+      <LocalizedName description="Information" languagecode="1033" />
+    </LocalizedNames>
+    <Descriptions>
+      <Description description="A form for this entity." languagecode="1033" />
+    </Descriptions>
+  </systemform>
+</forms>

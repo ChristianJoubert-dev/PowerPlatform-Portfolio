@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedqueries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <savedquery>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>0</CanBeDeleted>
+    <isquickfindquery>0</isquickfindquery>
+    <isprivate>0</isprivate>
+    <isdefault>1</isdefault>
+    <savedqueryid>{f6948ccf-2072-473c-bd57-01a5ae34fa7f}</savedqueryid>
+    <layoutxml>
+      <grid name="resultset" jump="cj_title" select="1" icon="1" preview="1">
+        <row name="result" id="cj_hdticketid">
+          <cell name="cj_title" width="300" />
+          <cell name="cj_description" width="150" />
+          <cell name="cj_status" width="150" />
+          <cell name="cj_priority" width="150" />
+          <cell name="cj_source" width="150" />
+          <cell name="cj_resolvedon" width="150" />
+          <cell name="cj_requester" width="150" />
+          <cell name="cj_assignedto" width="150" />
+          <cell name="cj_category" width="150" />
+          <cell name="cj_ticketnumber" width="150" />
+        </row>
+      </grid>
+    </layoutxml>
+    <querytype>0</querytype>
+    <fetchxml>
+      <fetch version="1.0" mapping="logical">
+        <entity name="cj_hdticket">
+          <attribute name="cj_hdticketid" />
+          <attribute name="cj_title" />
+          <attribute name="createdon" />
+          <order attribute="cj_title" descending="false" />
+          <filter type="and">
+            <condition attribute="statecode" operator="eq" value="0" />
+          </filter>
+          <attribute name="cj_description" />
+          <attribute name="cj_status" />
+          <attribute name="cj_priority" />
+          <attribute name="cj_source" />
+          <attribute name="cj_resolvedon" />
+          <attribute name="cj_requester" />
+          <attribute name="cj_assignedto" />
+          <attribute name="cj_category" />
+          <attribute name="cj_ticketnumber" />
+        </entity>
+      </fetch>
+    </fetchxml>
+    <IntroducedVersion>1.0</IntroducedVersion>
+    <LocalizedNames>
+      <LocalizedName description="Active HD Tickets" languagecode="1033" />
+    </LocalizedNames>
+  </savedquery>
+</savedqueries>

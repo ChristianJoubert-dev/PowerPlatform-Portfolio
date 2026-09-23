@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<EntityRelationships xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <EntityRelationship Name="business_unit_cj_hdemployee" />
+  <EntityRelationship Name="business_unit_cj_hdsupportagent" />
+  <EntityRelationship Name="business_unit_cj_hdticket" />
+  <EntityRelationship Name="business_unit_cj_hdticketcategory" />
+  <EntityRelationship Name="cj_HDTicket_cj_hdemployee" />
+  <EntityRelationship Name="cj_HDTicket_cj_hdsupportagent" />
+  <EntityRelationship Name="cj_HDTicket_cj_hdticketcategory" />
+  <EntityRelationship Name="lk_cj_hdemployee_createdby" />
+  <EntityRelationship Name="lk_cj_hdemployee_modifiedby" />
+  <EntityRelationship Name="lk_cj_hdsupportagent_createdby" />
+  <EntityRelationship Name="lk_cj_hdsupportagent_modifiedby" />
+  <EntityRelationship Name="lk_cj_hdticket_createdby" />
+  <EntityRelationship Name="lk_cj_hdticket_modifiedby" />
+  <EntityRelationship Name="lk_cj_hdticketcategory_createdby" />
+  <EntityRelationship Name="lk_cj_hdticketcategory_modifiedby" />
+  <EntityRelationship Name="owner_cj_hdemployee" />
+  <EntityRelationship Name="owner_cj_hdsupportagent" />
+  <EntityRelationship Name="owner_cj_hdticket" />
+  <EntityRelationship Name="owner_cj_hdticketcategory" />
+  <EntityRelationship Name="team_cj_hdemployee" />
+  <EntityRelationship Name="team_cj_hdsupportagent" />
+  <EntityRelationship Name="team_cj_hdticket" />
+  <EntityRelationship Name="team_cj_hdticketcategory" />
+  <EntityRelationship Name="user_cj_hdemployee" />
+  <EntityRelationship Name="user_cj_hdsupportagent" />
+  <EntityRelationship Name="user_cj_hdticket" />
+  <EntityRelationship Name="user_cj_hdticketcategory" />
+</EntityRelationships>
