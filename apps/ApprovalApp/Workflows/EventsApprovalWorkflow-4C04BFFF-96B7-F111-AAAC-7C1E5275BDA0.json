@@ -1,0 +1,240 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_sharepointonline": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "cj_sharedsharepointonline_0a04a"
+        },
+        "api": {
+          "name": "shared_sharepointonline"
+        }
+      },
+      "shared_approvals": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "cj_sharedapprovals_d59c8"
+        },
+        "api": {
+          "name": "shared_approvals"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        }
+      },
+      "triggers": {
+        "When_an_item_is_created_or_modified": {
+          "recurrence": {
+            "frequency": "Minute",
+            "interval": 1
+          },
+          "evaluatedRecurrence": {
+            "frequency": "Minute",
+            "interval": 1
+          },
+          "splitOn": "@triggerOutputs()?['body/value']",
+          "type": "OpenApiConnection",
+          "inputs": {
+            "parameters": {
+              "dataset": "https://playgroundx.sharepoint.com/sites/Portfolio",
+              "table": "7eafab05-8adf-4e35-bcdb-326f7dd1c704"
+            },
+            "host": {
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+              "connectionName": "shared_sharepointonline",
+              "operationId": "GetOnUpdatedItems"
+            },
+            "authentication": "@parameters('$authentication')"
+          },
+          "conditions": [
+            {
+              "expression": "@equals(triggerBody()?['Status']?['Value'],'Pending Approval')"
+            }
+          ]
+        }
+      },
+      "actions": {
+        "Start_and_wait_for_an_approval": {
+          "runAfter": {},
+          "type": "OpenApiConnectionWebhook",
+          "inputs": {
+            "parameters": {
+              "approvalType": "Basic",
+              "WebhookApprovalCreationInput/title": "Event Approval For @{triggerBody()?['Title']}",
+              "WebhookApprovalCreationInput/assignedTo": "@triggerBody()?['AssignedTo/Email']",
+              "WebhookApprovalCreationInput/details": "@triggerBody()?['SessionCode']",
+              "WebhookApprovalCreationInput/enableNotifications": true,
+              "WebhookApprovalCreationInput/enableReassignment": true
+            },
+            "host": {
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_approvals",
+              "connectionName": "shared_approvals",
+              "operationId": "StartAndWaitForAnApproval"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Decisions_Taken": {
+          "runAfter": {
+            "Start_and_wait_for_an_approval": [
+              "Succeeded"
+            ]
+          },
+          "type": "Compose",
+          "inputs": "@int(add(triggerBody()?['DecisionsTaken'],1))"
+        },
+        "Condition": {
+          "actions": {
+            "Condition_1": {
+              "actions": {
+                "Send_an_HTTP_request_to_SharePoint": {
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "parameters": {
+                      "dataset": "https://playgroundx.sharepoint.com/sites/Portfolio",
+                      "parameters/method": "POST",
+                      "parameters/uri": "_api/web/lists/getbytitle('Events Info')/items(@{triggerBody()?['ID']})",
+                      "parameters/headers": {
+                        "Content-Type": "application/json;odata=verbose",
+                        "Accept": "application/json;odata=verbose",
+                        "IF-MATCH": "*",
+                        "X-HTTP-Method": "MERGE"
+                      },
+                      "parameters/body": "{\n\"__metadata\":{ \"type\": \"SP.Data.Events_x0020_InfoListItem\"},\n\"AssignedToId\":\"-1\"\n}"
+                    },
+                    "host": {
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+                      "connectionName": "shared_sharepointonline",
+                      "operationId": "HttpRequest"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                }
+              },
+              "runAfter": {
+                "Update_item": [
+                  "Succeeded"
+                ]
+              },
+              "else": {
+                "actions": {}
+              },
+              "expression": {
+                "and": [
+                  {
+                    "equals": [
+                      "@equals(length(outputs('Update_item')?['body/Approvers']),outputs('Update_item')?['body/DecisionsTaken'])",
+                      "@true"
+                    ]
+                  }
+                ]
+              },
+              "type": "If"
+            },
+            "Update_item": {
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "dataset": "https://playgroundx.sharepoint.com/sites/Portfolio",
+                  "table": "7eafab05-8adf-4e35-bcdb-326f7dd1c704",
+                  "id": "@triggerBody()?['ID']",
+                  "item/Status/Value": "@if(equals(length(triggerBody()?['Approvers']),outputs('Decisions_Taken')),'Approved','Pending Approval')",
+                  "item/AssignedTo/Claims": "@if(equals(length(triggerBody()?['Approvers']),outputs('Decisions_Taken')),triggerBody()?['AssignedTo/Claims'],triggerBody()?['Approvers']?[outputs('Decisions_Taken')]['Claims'])",
+                  "item/ApprovalHistory": "@{triggerBody()?['ApprovalHistory']}\n------------------------------------------\nApproved by @{outputs('Start_and_wait_for_an_approval')?['body']?['responses'][0]?['responder']?['displayName']}\nComments (if any): @{utputs('Start_and_wait_for_an_approval')?['body']?['responses'][0]?['comments']}",
+                  "item/DecisionsTaken": "@outputs('Decisions_Taken')"
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+                  "connectionName": "shared_sharepointonline",
+                  "operationId": "PatchItem"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            }
+          },
+          "runAfter": {
+            "Decisions_Taken": [
+              "Succeeded"
+            ]
+          },
+          "else": {
+            "actions": {
+              "Update_item_1": {
+                "type": "OpenApiConnection",
+                "inputs": {
+                  "parameters": {
+                    "dataset": "https://playgroundx.sharepoint.com/sites/Portfolio",
+                    "table": "7eafab05-8adf-4e35-bcdb-326f7dd1c704",
+                    "id": "@triggerBody()?['ID']",
+                    "item/Status/Value": "Rejected",
+                    "item/ApprovalHistory": "@{triggerBody()?['ApprovalHistory']}\n------------------------------------------\nRejected by @{outputs('Start_and_wait_for_an_approval')?['body']?['responses'][0]?['responder']?['displayName']}\nComments (if any): @{utputs('Start_and_wait_for_an_approval')?['body']?['responses'][0]?['comments']}",
+                    "item/DecisionsTaken": "@outputs('Decisions_Taken')"
+                  },
+                  "host": {
+                    "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+                    "connectionName": "shared_sharepointonline",
+                    "operationId": "PatchItem"
+                  },
+                  "authentication": "@parameters('$authentication')"
+                }
+              },
+              "Send_an_HTTP_request_to_SharePoint_1": {
+                "runAfter": {
+                  "Update_item_1": [
+                    "Succeeded"
+                  ]
+                },
+                "type": "OpenApiConnection",
+                "inputs": {
+                  "parameters": {
+                    "dataset": "https://playgroundx.sharepoint.com/sites/Portfolio",
+                    "parameters/method": "POST",
+                    "parameters/uri": "_api/web/lists/getbytitle('Events Info')/items(@{triggerBody()?['ID']})",
+                    "parameters/headers": {
+                      "Content-Type": "application/json;odata=verbose",
+                      "Accept": "application/json;odata=verbose",
+                      "IF-MATCH": "*",
+                      "X-HTTP-Method": "MERGE"
+                    },
+                    "parameters/body": "{\n\"__metadata\":{ \"type\": \"SP.Data.Events_x0020_InfoListItem\"},\n\"AssignedToId\":\"-1\"\n}"
+                  },
+                  "host": {
+                    "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+                    "connectionName": "shared_sharepointonline",
+                    "operationId": "HttpRequest"
+                  },
+                  "authentication": "@parameters('$authentication')"
+                }
+              }
+            }
+          },
+          "expression": {
+            "and": [
+              {
+                "equals": [
+                  "@outputs('Start_and_wait_for_an_approval')?['body/outcome']",
+                  "Approve"
+                ]
+              }
+            ]
+          },
+          "type": "If"
+        }
+      },
+      "outputs": {}
+    },
+    "templateName": null
+  },
+  "schemaVersion": "1.0.0.0"
+}
